@@ -1,6 +1,6 @@
 from flask import Flask, request
-#from caesar import rotate_string
-import caesar
+from caesar import rotate_string
+
 import cgi
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -10,29 +10,29 @@ form="""
 <html>
     <head>
         <style>
-            form {
+            form {{
                 background-color: #eee;
                 padding: 20px;
                 margin: 0 auto;
                 width: 540px;
                 font: 16px sans-serif;
                 border-radius: 10px;
-            }
-            textarea {
+            }}
+            textarea {{
                 margin: 10px 0;
                 width: 540px;
                 height: 120px;
-            }
+            }}
         </style>
     </head>
     <body>
-        <form action="/rotate" method="post">
+        <form method="POST">
             <label>
                 Rotate by:
                 <input type="text" name="rot" value="0" /><br>
-                <input type="text" name"textarea"/><br>
+                <textarea name="textarea">{0}</textarea><br>
             </label>
-            <input type="submit" value="encrypt"/>
+            <input type="submit" value="Submit Query"/>
         </form>
     </body>
 </html>
@@ -43,21 +43,25 @@ form="""
 
 @app.route("/")
 def index():
-    return form 
+    return form.format("") 
 
-@app.route("/rotate", methods=['POST'])
-def rotate():
-    rotate= request.form['rot']
-    return cgi.escape(rotate)
+#@app.route("/rotate", methods=['POST'])
+#def rotate():
+#    rotate= request.form['rot']
+#    return cgi.escape(rotate)
 
-@app.route("/encrypt", methods=['POST'])
+
+
+@app.route("/", methods=['POST'])
 def encrypt():
     textarea = request.form['textarea']
-    text = textarea
-    rot = int(self.request.get['rotate_by'])
-    rotate(text, rot)
-    rotate_string(text, rot)
-    self.response.write['encrypted']
-    return rotate_string()
+    rot = request.form['rot']
+    rot = int(rot)
+    #rot = int(self.request.get['rotate_by'])
+    #text = textarea
+    #rotate(text, rot)
+    #rotate_string(textarea, rot)
+    #self.response.write['encrypted']
+    return form.format(rotate_string(textarea, rot))
  
 app.run()
